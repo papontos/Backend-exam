@@ -1,16 +1,16 @@
 package com.papon.exam.dto;
 
 public class EmployeeDto {
-	private Long employeeId;
+	private Long id;
 	private String firstName;
 	private String lastName;
 
-	public Long getEmployeeId() {
-		return employeeId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setEmployeeId(Long employeeId) {
-		this.employeeId = employeeId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {

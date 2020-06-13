@@ -37,16 +37,18 @@ public class EmployeeService {
 		employeeRepository.deleteById(id);
 	}
 
-	public void updateEmployee(final EmployeeDto vo) {
-		Employee rs = employeeRepository.findById(vo.getId()).orElseThrow(() -> new EntityNotFoundException());
-		rs.setFirstName(vo.getFirstName());
-		rs.setLastName(vo.getLastName());
-		employeeRepository.save(rs);
+	public EmployeeDto updateEmployee(final EmployeeDto dto) {
+		Employee employee = employeeRepository.findById(dto.getId()).orElseThrow(() -> new EntityNotFoundException());
+		employee.setFirstName(dto.getFirstName());
+		employee.setLastName(dto.getLastName());
+		employeeRepository.save(employee);
+		return employeeMapper.employeeToEmployeeDto(employee);
 	}
 	
-	public void insertEmployee(final EmployeeDto vo) {
-		Employee rs = new Employee(vo.getFirstName(),vo.getLastName());
-		employeeRepository.save(rs);
+	public EmployeeDto insertEmployee(final EmployeeDto dto) {
+		Employee employee = new Employee(dto.getFirstName(),dto.getLastName());
+		employeeRepository.save(employee);
+		return employeeMapper.employeeToEmployeeDto(employee);
 	}
 
 	

@@ -1,10 +1,12 @@
 package com.papon.exam.service;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.papon.exam.mapper.ExployeeMapper;
 import com.papon.exam.dto.EmployeeDto;
@@ -123,7 +125,7 @@ public class EmployeeServiceTest {
 		given(employeeRepositoryMock.findById(1L)).willReturn(mockResp);
 
 		employeeService.updateEmployee(mockDto);
-		
+
 		verify(employeeRepositoryMock, times(1)).save(mockData);
 	}
 
@@ -148,12 +150,12 @@ public class EmployeeServiceTest {
 		mockDto.setId(null);
 		mockDto.setFirstName("firstName");
 		mockDto.setLastName("lastName");
-		
+
 		Employee mockData = new Employee();
 		mockData.setId(null);
 		mockData.setFirstName("firstName");
 		mockData.setLastName("lastName");
-		
+
 		employeeService.insertEmployee(mockDto);
 		verify(employeeRepositoryMock, times(1)).save(Mockito.any());
 	}

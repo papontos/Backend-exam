@@ -22,13 +22,17 @@ import com.papon.exam.service.EmployeeService;
 @RestController
 @RequestMapping("employees")
 public class EmployeeController {
-	
+
 	@Autowired
 	EmployeeService employeeService;
 
 	@GetMapping()
 	public ResponseEntity<List<EmployeeDto>> getEmployees() {
-		return ResponseEntity.ok(employeeService.getAll());
+		try {
+			return ResponseEntity.ok(employeeService.getAll());
+		} catch (Exception ex) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 
 	@GetMapping("/{id}")
@@ -53,10 +57,10 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateEmployee(@RequestBody final EmployeeDto employeeVo) {
+	public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable("id") final Long id,@RequestBody final EmployeeDto employeeVo) {
 		try {
-			employeeService.updateEmployee(employeeVo);
-			return ResponseEntity.ok(null);
+			employeeVo.setId(id);
+			return ResponseEntity.ok(employeeService.updateEmployee(employeeVo));
 		} catch (EntityNotFoundException enx) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} catch (Exception ex) {
@@ -65,10 +69,9 @@ public class EmployeeController {
 	}
 
 	@PostMapping()
-	public ResponseEntity<Void> insertEmployee(@RequestBody final EmployeeDto employeeVo) {
+	public ResponseEntity<EmployeeDto> insertEmployee(@RequestBody final EmployeeDto employeeVo) {
 		try {
-			employeeService.insertEmployee(employeeVo);
-			return ResponseEntity.ok(null);
+			return ResponseEntity.ok(employeeService.insertEmployee(employeeVo));
 		} catch (Exception ex) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
